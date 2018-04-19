@@ -5,7 +5,7 @@
 
 ## Overview
 
-ObjectSet is identical to JavaScript's built-in Set, but performs a deep comparison of it's elements when comparing elements, instead of using object references comparison (strict equality). Hence, this is the Set datastructure, designed to handle objects. It shares the same interface as set, so Set operations, such as add, delete, has, clear, entries, forEach, etc, will all work on ObjectSet.
+ObjectSet is identical to JavaScript's built-in Set, but performs a deep comparison of it's elements when comparing elements, instead of using object references comparison (strict equality). Hence, this is the Set datastructure, designed to handle objects. It shares the same interface as set, so Set operations, such as add, delete, has, clear, entries, forEach, etc, will all work on ObjectSet. If after a deep comparison, 2 objects inserted into the set are seen as identical, only one of them will be found in the Set.
 
 ## Examples
 
@@ -89,7 +89,7 @@ for(const obj of set.entries()){ console.log(obj); }
 
   
 
-This module was built to share the same interface as the Set datastructure, but designed to handle objects. It compares elements using lodash's isEqual() operator. [The official mozilla Set object documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set) is applicable to ObjectSet. The only main disadvantage of this ObjectSet implementation is that **ObjectSet does not keep track of insertion order**. All operations defined in the official Set documentation have been implemented in ObjectSet. As you can see below, the documentation for ObjectSet is almost identical to that of Set.
+This module was built to share the same interface as the Set datastructure, but designed to handle objects, using recursive deep object comparisons.  [The official mozilla Set object documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set) is applicable to ObjectSet. The only main disadvantage of this ObjectSet implementation is that **ObjectSet does not keep track of insertion order**. All operations defined in the official Set documentation have been implemented in ObjectSet. As you can see below, the documentation for ObjectSet is almost identical to that of Set.
   
 
 ### ObjectSet Properties
