@@ -1,0 +1,11 @@
+{
+  "presets": [
+    "bluebird",
+    "es2015"],
+  "plugins": [
+    "transform-async-to-bluebird",
+    "transform-promise-to-bluebird",
+    "transform-bluebird",
+    "transform-runtime"
+  ]
+}

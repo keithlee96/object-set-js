@@ -1,0 +1,41 @@
+{
+  "name": "object-set",
+  "version": "1.0.0",
+  "description": "Allow users to manage sets of objects using deep comparisons of it's elements rather than using reference comparisons",
+  "main": "object-set.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/keithlee96/object-set-js.git"
+  },
+  "keywords": [
+    "set",
+    "object"
+  ],
+  "author": "keithlee96",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/keithlee96/object-set-js/issues"
+  },
+  "homepage": "https://github.com/keithlee96/object-set-js#readme",
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-plugin-transform-bluebird": "^0.1.1",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-node6": "^11.0.0",
+    "babel-register": "^6.26.0",
+    "babel-runtime": "^6.26.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.1.2",
+    "babel-plugin-transform-async-to-bluebird": "^1.1.1",
+    "babel-plugin-transform-promise-to-bluebird": "^1.1.1",
+    "babel-preset-bluebird": "^1.0.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "jest": "^22.4.3"
+  }
+}
