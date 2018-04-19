@@ -1,5 +1,142 @@
+
 # Object Set JS
+
+  
 
 ## Overview
 
-This is a simple implementation of 
+ObjectSet is identical to JavaScript's built-in Set, but performs a deep comparison of it's elements when comparing elements, instead of using object references comparison (strict equality). Hence, this is the Set datastructure, designed to handle objects. It shares the same interface as set, so Set operations, such as add, delete, has, clear, entries, forEach, etc, will all work on ObjectSet.
+
+## Examples
+
+### Basic usage
+```
+
+// Creating an empty set
+const set = new ObjectSet();
+console.log(set.has({a: 'a'})); // false
+set.add({ a: 'a' });
+console.log(set.has({a: 'a'})); // true
+console.log(set.size); // 1
+
+```
+
+```
+
+// Creating a non-empty set and logging the contents out
+const set = new ObjectSet([{ a: 'a' }, { b: 'b' }]);
+set.add({ c: 'c' });
+console.log(set.has({a: 'a'})); // true
+for(let obj of set){
+	console.log(obj); // logs out { a: 'a'}, then {b: 'b'}, then { c: 'c'}
+}
+
+```
+
+### Adding multiple elements
+```
+
+// Creating a non-empty set and logging the contents out
+const set = new ObjectSet();
+// set accepts multiple arguments and adds them all in-order
+set.add({ a: 'a' }, { b: 'b' }, { c: 'c' });
+console.log(set.has({a: 'a'})); // true
+set.forEach(console.log); // logs out { a: 'a'}, then {b: 'b'}, then { c: 'c'}
+
+```
+
+### Handling duplicates
+
+```
+
+const set = new ObjectSet();
+// add can be chained, same as Set.prototype.add()
+set.add({a: 'a'}).add({b: 'b'});
+console.log(set.size); // 2
+set.add({a: 'a'}); // does nothing, since ObjectSet already contains {a: 'a'}
+console.log(set.size); // 2
+set.add({a: 'b'}); // different, so it gets added
+console.log(set.size); // 3
+
+```
+
+### Removing elements
+
+```
+const set = new ObjectSet([{ a: 'a' }, { b: 'b' }]);
+console.log(set.size); // 2
+let res1 = set.remove({a: 'a'});
+console.log(res1); // true
+console.log(set.has({a: 'a'})); // false
+let res2 = set.remove({a: 'a'}); // does nothing
+console.log(res2); // false
+
+```
+### Iteration methods
+
+```
+const set = new ObjectSet([{ a: 'a' }, { b: 'b' }]);
+// 4 different ways to log out the contents of an ObjectSet
+set.forEach(console.log);
+for(const obj of set){ console.log(obj); }
+for(const obj of set.keys()){ console.log(obj); }
+for(const obj of set.entries()){ console.log(obj); }
+// All of these statements will log out {a: 'a'}, then { b: 'b'}
+```
+
+
+## Documentation
+
+  
+
+This module was built to share the same interface as the Set datastructure, but designed to handle objects. It compares elements using lodash's isEqual() operator. [The official mozilla Set object documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set) is applicable to ObjectSet. The only main disadvantage of this ObjectSet implementation is that **ObjectSet does not keep track of insertion order**. All operations defined in the official Set documentation have been implemented in ObjectSet. As you can see below, the documentation for ObjectSet is almost identical to that of Set.
+  
+
+### ObjectSet Properties
+
+#### ObjectSet.prototype.constructor
+
+Returns the function that created an instance's prototype. This is the ObjectSet function by default.
+
+#### ObjectSet.prototype.size
+
+Returns the number of values in the ObjectSet object.
+
+### ObjectSet Methods
+
+#### ObjectSet.prototype.add(value [, value [,value[,....]]])
+
+Adds all values passed as arguments to the ObjectSet object, in-order. Returns the ObjectSet object. This can be used in the same way as Set.prototype.add() for the native Set object, the only difference being that we allow for multiple values to be inserted at once.
+**If you call ObjectSet.prototype.add() with no arguments, it will add *undefined* to the ObjectSet object**. I did this to mimic the behaviour of Set.prototype.add(), which when called with no arguments, will also insert *undefined* into a Set object. If you use ObjectSet.prototype.add()  exactly like Set.prototype.add(), you have nothing to worry about. Just be careful if you perform an operation like ObjectSet.prototype.add(...arr). If the array is non-empty, it will work as expected, inserting all elements of the array to ObjectSet. However, if arr is an empty array, it will insert *undefined* into the set.
+
+#### ObjectSet.prototype.clear()
+
+Removes all elements from the ObjectSet object.
+
+#### ObjectSet.prototype.delete(value)
+
+Removes the element associated to the value and returns the value that ObjectSet.prototype.has(value) would have previously returned. ObjectSet.prototype.has(value) will return false afterwards.
+
+#### ObjectSet.prototype.entries()
+
+Returns a new Iterator object that contains an array of [value, value] for each element in the ObjectSet object, in insertion order. This is kept similar to the Map object, so that each entry has the same value for its key and value here.
+
+#### ObjectSet.prototype.forEach(callbackFn[, thisArg])
+
+Calls callbackFn once for each value present in the ObjectSet object ~~in insertion order~~. If a thisArg parameter is provided to forEach, it will be used as the this value for each callback.
+
+#### ObjectSet.prototype.has(value)
+
+Returns a boolean asserting whether an element is present with the given value in the ObjectSet object or not.
+
+#### ObjectSet.prototype.keys()
+
+Is the same function as the values() function and returns a new Iterator object that contains the values for each element in the ObjectSet object ~~in insertion order~~.
+
+#### ObjectSet.prototype.values()
+
+Returns a new Iterator object that contains the values for each element in the ObjectSet object ~~in insertion order~~.
+
+#### ObjectSet.prototype\[@@iterator]()
+
+Returns a new Iterator object that contains the values for each element in the ObjectSet object ~~in insertion order~~.

@@ -20,7 +20,7 @@ export default class ObjectSet {
     }
   }
   /* Allows users to add objects to set */
-  add(obj) {
+  add(obj, ...extraObj) {
     const objClone = cloneDeep(obj);
     const hash = objectHash(objClone);
     const objArr = this.innerMap.get(hash);
@@ -41,11 +41,7 @@ export default class ObjectSet {
         this.size++;
       }
     }
-    return this;
-  }
-  // Allow the user to add any number of arguments
-  addMany(...objArr) {
-    objArr.forEach(obj => this.add(obj));
+    extraObj.forEach(o => this.add(o));
     return this;
   }
 
@@ -117,5 +113,9 @@ export default class ObjectSet {
         yield obj;
       }
     }
+  }
+
+  toString() {
+    return `ObjectSet(${[...this]})`;
   }
 }

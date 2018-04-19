@@ -113,26 +113,26 @@ describe('add', () => {
   });
 });
 
-describe('addMany', () => {
+describe('add (multiple objects)', () => {
   // Set returns a list of contained objects
   it('Basic test', () => {
     const set = new ObjectSet();
     expect(set.size).toBe(0);
-    set.addMany({ a: 'a' });
+    set.add({ a: 'a' });
     expect(set.size).toBe(1);
   });
 
   it('Add multiple items', () => {
     const set = new ObjectSet();
     expect(set.size).toBe(0);
-    set.addMany({ a: 'a' }, { b: 'b' });
+    set.add({ a: 'a' }, { b: 'b' });
     expect(set.size).toBe(2);
   });
 
   it('Duplicate objects are not added', () => {
     const set = new ObjectSet();
     expect(set.size).toBe(0);
-    set.addMany({ a: 'a' }, { b: 'b' }, { a: 'a' });
+    set.add({ a: 'a' }, { b: 'b' }, { a: 'a' });
     expect(set.size).toBe(2);
   });
 });

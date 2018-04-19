@@ -2,8 +2,9 @@
   "name": "object-set",
   "version": "1.0.0",
   "description": "Allow users to manage sets of objects using deep comparisons of it's elements rather than using reference comparisons",
-  "main": "object-set.js",
+  "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "jest"
   },
   "repository": {
