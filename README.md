@@ -125,7 +125,7 @@ for(const obj of set.entries()){ console.log(obj); }
 ## Documentation
   
 
-As ObjectSet was designed to share the same interface as the Set datastructure, [The official mozilla Set documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set) is applicable to ObjectSet. All operations defined in the official Set documentation have been implemented in ObjectSet. As you can see below, the documentation for ObjectSet is almost identical to that of Set. The primary disadvantage of this ObjectSet implementation over the native Set implementation is that **ObjectSet is not garenteed keep track of insertion order**, but that seems to be an acceptable tradeoff to handle sets of Objects.
+As ObjectSet was designed to share the same interface as the Set datastructure, [the official mozilla Set documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set) is applicable to ObjectSet. All operations defined in the Set documentation have been implemented in ObjectSet. As you can see below, the documentation for ObjectSet is almost identical to that of Set. The primary disadvantage of this ObjectSet implementation over the native Set implementation is that **ObjectSet is not garenteed keep track of insertion order**, but that seems to be an acceptable tradeoff to be able to handle sets of Objects.
   
 
 ### ObjectSet Properties
