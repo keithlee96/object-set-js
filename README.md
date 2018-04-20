@@ -42,7 +42,7 @@ const set = new ObjectSet([{ a: 'a' }, { b: 'b' }]);
 set.add({ c: 'c' });
 console.log(set.has({a: 'a'})); // true
 for(let obj of set){
-	console.log(obj); // logs out { a: 'a'}, then {b: 'b'}, then { c: 'c'}
+console.log(obj); // logs out { a: 'a'}, then {b: 'b'}, then { c: 'c'}
 }
 
 ```
@@ -103,23 +103,23 @@ for(const obj of set.entries()){ console.log(obj); }
 
 ### Even works with objects modified after insertion!
 ```
-    const obj1 = { a: 'a' };
-    const obj2 = { a: 'a' };
-    const obj3 = { a: 'a', b: 'b' };
+  const obj1 = { a: 'a' };
+  const obj2 = { a: 'a' };
+  const obj3 = { a: 'a', b: 'b' };
 
-    const set = new ObjectSet();
-    set.add(obj1);
-    console.log(set.has(obj2)); // true
-    // modify obj1 to look like obj3
-    obj1.b = 'b';
-    
-    console.log(set.has(obj1)); // false, since obj1 has been modified
-    console.log(set.has(obj2)); // still true, since obj1 was inserted before it was modified
-    console.log(set.has(obj3)); // false
-    set.add(obj1); // add the new object 1
-    console.log(set.has(obj1)); // true
-    console.log(set.has(obj2)); // true
-    console.log(set.has(obj3)); // true
+  const set = new ObjectSet();
+  set.add(obj1);
+  console.log(set.has(obj2)); // true
+  // modify obj1 to look like obj3
+  obj1.b = 'b';
+  
+  console.log(set.has(obj1)); // false, since obj1 has been modified
+  console.log(set.has(obj2)); // still true, since obj1 was inserted before it was modified
+  console.log(set.has(obj3)); // false
+  set.add(obj1); // add the new object 1
+  console.log(set.has(obj1)); // true
+  console.log(set.has(obj2)); // true
+  console.log(set.has(obj3)); // true
 ```
 
 ## Documentation
