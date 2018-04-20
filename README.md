@@ -103,29 +103,32 @@ for(const obj of set.entries()){ console.log(obj); }
 
 ### Even works with objects modified after insertion!
 ```
-  const obj1 = { a: 'a' };
-  const obj2 = { a: 'a' };
-  const obj3 = { a: 'a', b: 'b' };
+const obj1 = { a: 'a' };
+const obj2 = { a: 'a' };
+const obj3 = { a: 'a', b: 'b' };
 
-  const set = new ObjectSet();
-  set.add(obj1);
-  console.log(set.has(obj2)); // true
-  // modify obj1 to look like obj3
-  obj1.b = 'b';
-  
-  console.log(set.has(obj1)); // false, since obj1 has been modified
-  console.log(set.has(obj2)); // still true, since obj1 was inserted before it was modified
-  console.log(set.has(obj3)); // false
-  set.add(obj1); // add the new object 1
-  console.log(set.has(obj1)); // true
-  console.log(set.has(obj2)); // true
-  console.log(set.has(obj3)); // true
+const set = new ObjectSet();
+set.add(obj1);
+
+console.log(set.has(obj2)); // true
+
+obj1.b = 'b';
+
+console.log(set.has(obj1)); // false, since obj1 has been modified
+console.log(set.has(obj2)); // still true, since obj1 was inserted before it was modified
+console.log(set.has(obj3)); // false
+
+set.add(obj1);
+
+console.log(set.has(obj1)); // true
+console.log(set.has(obj2)); // true
+console.log(set.has(obj3)); // true
 ```
 
 ## Documentation
   
 
-As ObjectSet was designed to share the same interface as the Set datastructure, [the official mozilla Set documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set) is applicable to ObjectSet. All operations defined in the Set documentation have been implemented in ObjectSet. As you can see below, the documentation for ObjectSet is almost identical to that of Set. The primary disadvantage of this ObjectSet implementation over the native Set implementation is that **ObjectSet is not garenteed keep track of insertion order**, but that seems to be an acceptable tradeoff to be able to handle sets of Objects.
+As ObjectSet was designed to share the same interface as the Set datastructure, [the official mozilla Set documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set) is applicable to ObjectSet. All operations defined in the Set documentation have been implemented in ObjectSet. As you can see below, the documentation for ObjectSet is almost identical to that of Set, with ObjectSet having a little extra functionality. The primary differnce is that ObjectSet uses a deep object comparison to detemine equality, instead of reference equality in the native Set implementation. The primary disadvantage of the ObjectSet implementation over the native Set implementation is that **ObjectSet is not garenteed keep track of insertion order**, which was an acceptable tradeoff.
   
 
 ### ObjectSet Properties
