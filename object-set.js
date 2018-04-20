@@ -10,6 +10,7 @@ const isIterable = require('./helpers/isIterable');
 module.exports = class ObjectSet {
   /* Constructor accepts an array of objects to add and deepCopy is a boolean to determine
   if it's necessary to deepCopy all inserted objects */
+  // eslint-disable-next-line no-shadow
   constructor(arg = [], { cloneDeep } = { cloneDeep: true }) {
     if (!isIterable(arg)) {
       throw new Error('ObjectSet constructor recieved a non iterable argument');
