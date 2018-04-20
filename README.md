@@ -42,7 +42,7 @@ const set = new ObjectSet([{ a: 'a' }, { b: 'b' }]);
 set.add({ c: 'c' });
 console.log(set.has({a: 'a'})); // true
 for(let obj of set){
-console.log(obj); // logs out { a: 'a'}, then {b: 'b'}, then { c: 'c'}
+  console.log(obj); // logs out { a: 'a'}, then {b: 'b'}, then { c: 'c'}
 }
 
 ```
