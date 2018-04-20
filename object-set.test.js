@@ -34,6 +34,50 @@ describe('constructor', () => {
   });
 });
 
+describe('cloneDeep=true', () => {
+  it('Ensure that objects are cloned properly', () => {
+    const obj1 = { a: 'a' };
+    const obj2 = { a: 'a' };
+    const obj3 = { a: 'a', b: 'b' };
+
+    const set = new ObjectSet();
+    set.add(obj1);
+    expect(set.has(obj2)).toBeTruthy();
+    // modify obj1 to look like obj3
+    obj1.b = 'b';
+
+    expect(set.has(obj2)).toBeTruthy();
+    expect(set.has(obj3)).toBeFalsy();
+    // Object 1 is readded, but with different contents
+    set.add(obj1);
+    expect(set.has(obj3)).toBeTruthy();
+  });
+  it('Returned objects can be modified without messing up internal implementation', () => {
+    const obj1 = { a: 'a' };
+    const obj2 = { b: 'b' };
+
+    const set = new ObjectSet([obj1, obj2]);
+    // eslint-disable-next-line no-param-reassign
+    set.forEach((obj) => { obj.c = 'c'; });
+    expect([...set]).toEqual([{ a: 'a' }, { b: 'b' }]);
+    expect(obj1).toEqual({ a: 'a' });
+    expect(obj2).toEqual({ b: 'b' });
+  });
+});
+describe('cloneDeep=false', () => {
+  it('Returned objects can be modified without messing up internal implementation', () => {
+    const obj1 = { a: 'a' };
+    const obj2 = { b: 'b' };
+
+    const set = new ObjectSet([obj1, obj2], { cloneDeep: false });
+    // eslint-disable-next-line no-param-reassign
+    set.forEach((obj) => { obj.c = 'c'; });
+    expect(Array.from(set)).toEqual([{ a: 'a', c: 'c' }, { b: 'b', c: 'c' }]);
+    expect(obj1).toEqual({ a: 'a', c: 'c' });
+    expect(obj2).toEqual({ b: 'b', c: 'c' });
+  });
+});
+
 describe('size', () => {
   it('Set size after construction is accurate', () => {
     const set = new ObjectSet([{ a: 'a' }, { b: 'b' }, { c: 'c' }]);

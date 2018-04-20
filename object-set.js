@@ -1,19 +1,22 @@
-import { cloneDeep, isEqual } from 'lodash';
-import objectHash from 'object-hash';
-import assert from 'assert';
-import isIterable from './helpers/isIterable';
+const { cloneDeep, isEqual } = require('lodash');
+const objectHash = require('object-hash');
+const assert = require('assert');
+const isIterable = require('./helpers/isIterable');
 /* eslint-disable no-restricted-syntax */
 // Note: never return objects to the user, until they are removed
 // Whenever an object is inserted into the set, a deep copy of it is made.
 // Once hashed, the copied object is never exposed to the outside world
 
-export default class ObjectSet {
-  constructor(arg = []) {
+module.exports = class ObjectSet {
+  /* Constructor accepts an array of objects to add and deepCopy is a boolean to determine
+  if it's necessary to deepCopy all inserted objects */
+  constructor(arg = [], { cloneDeep } = { cloneDeep: true }) {
     if (!isIterable(arg)) {
       throw new Error('ObjectSet constructor recieved a non iterable argument');
     }
     this.size = 0;
     this.innerMap = new Map();
+    this.cloneDeep = cloneDeep;
 
     for (const obj of arg) {
       this.add(obj);
@@ -21,7 +24,7 @@ export default class ObjectSet {
   }
   /* Allows users to add objects to set */
   add(obj, ...extraObj) {
-    const objClone = cloneDeep(obj);
+    const objClone = this.cloneDeep ? cloneDeep(obj) : obj;
     const hash = objectHash(objClone);
     const objArr = this.innerMap.get(hash);
     if (objArr === undefined) {
@@ -89,13 +92,13 @@ export default class ObjectSet {
 
   entries() {
     return [...this]
-      .map(obj => [cloneDeep(obj), cloneDeep(obj)]);
+      .map(obj => [this.cloneDeep ? cloneDeep(obj) : obj, this.cloneDeep ? cloneDeep(obj) : obj]);
   }
 
   forEach(callback, thisArg) {
     const cb = callback.bind(thisArg || this);
     for (const obj of this) {
-      cb(cloneDeep(obj));
+      cb(this.cloneDeep ? cloneDeep(obj) : obj);
     }
   }
 
@@ -110,7 +113,7 @@ export default class ObjectSet {
   * [Symbol.iterator]() {
     for (const [, objArr] of this.innerMap) {
       for (const obj of objArr) {
-        yield obj;
+        yield this.cloneDeep ? cloneDeep(obj) : obj;
       }
     }
   }
@@ -118,4 +121,4 @@ export default class ObjectSet {
   toString() {
     return `ObjectSet(${[...this]})`;
   }
-}
+};

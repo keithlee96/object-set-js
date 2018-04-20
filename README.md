@@ -7,6 +7,20 @@
 
 ObjectSet is identical to JavaScript's built-in Set, but performs a deep comparison of it's elements when comparing elements, instead of using object references comparison (strict equality). Hence, this is the Set datastructure, designed to handle objects. It shares the same interface as set, so Set operations, such as add, delete, has, clear, entries, forEach, etc, will all work on ObjectSet. If after a deep comparison, 2 objects inserted into the set are seen as identical, only one of them will be found in the Set.
 
+## Installation
+Using npm:
+ ```
+ npm i -S object-set-js
+ ```
+In node.js:
+```
+var ObjectSet = require('object-set-js');
+```
+or in ES6:
+```
+import ObjectSet from 'object-set-js';
+```
+
 ## Examples
 
 ### Basic usage
@@ -72,6 +86,9 @@ let res2 = set.remove({a: 'a'}); // does nothing
 console.log(res2); // false
 
 ```
+
+
+
 ### Iteration methods
 
 ```
@@ -84,19 +101,44 @@ for(const obj of set.entries()){ console.log(obj); }
 // All of these statements will log out {a: 'a'}, then { b: 'b'}
 ```
 
+### Even works with objects modified after insertion!
+```
+    const obj1 = { a: 'a' };
+    const obj2 = { a: 'a' };
+    const obj3 = { a: 'a', b: 'b' };
+
+    const set = new ObjectSet();
+    set.add(obj1);
+    console.log(set.has(obj2)); // true
+    // modify obj1 to look like obj3
+    obj1.b = 'b';
+    
+    console.log(set.has(obj1)); // false, since obj1 has been modified
+    console.log(set.has(obj2)); // still true, since obj1 was inserted before it was modified
+    console.log(set.has(obj3)); // false
+    set.add(obj1); // add the new object 1
+    console.log(set.has(obj1)); // true
+    console.log(set.has(obj2)); // true
+    console.log(set.has(obj3)); // true
+```
 
 ## Documentation
-
   
 
-This module was built to share the same interface as the Set datastructure, but designed to handle objects, using recursive deep object comparisons.  [The official mozilla Set object documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set) is applicable to ObjectSet. The only main disadvantage of this ObjectSet implementation is that **ObjectSet does not keep track of insertion order**. All operations defined in the official Set documentation have been implemented in ObjectSet. As you can see below, the documentation for ObjectSet is almost identical to that of Set.
+This module was built to share the same interface as the Set datastructure, but designed to handle objects, using recursive deep object comparisons.  [The official mozilla Set documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set) is applicable to ObjectSet. The only main disadvantage of this ObjectSet implementation is that **ObjectSet is not garenteed keep track of insertion order**. All operations defined in the official Set documentation have been implemented in ObjectSet. As you can see below, the documentation for ObjectSet is almost identical to that of Set.
   
 
 ### ObjectSet Properties
 
-#### ObjectSet.prototype.constructor
+#### ObjectSet.prototype.constructor(iterableObject [, options])
 
+Creates an ObjectSet containing all iterable elements in the iterableObject. This also accepts an optional options object.
 Returns the function that created an instance's prototype. This is the ObjectSet function by default.
+
+| Option| Description | 
+| :----------: |:-------------|
+| deepCopy | Defaults to true. If true, the Set will a reference to a deep copy of inserted objects instead of storing a reference to the original object. We reccomend leaving this option set to true, since it's much less error prone. However, if the memory overhead of deep copying objects is not acceptable, you may set this to false, but you must ensure that any inserted objects are not modified after insertion. Otherwise there will be a mismatch between object hashes and objects inside the ObjectSet which will cause the ObjectSet.prototype.has() to be unable to find the correct objects.  |
+
 
 #### ObjectSet.prototype.size
 
@@ -106,7 +148,7 @@ Returns the number of values in the ObjectSet object.
 
 #### ObjectSet.prototype.add(value [, value [,value[,....]]])
 
-Adds all values passed as arguments to the ObjectSet object, in-order. Returns the ObjectSet object. This can be used in the same way as Set.prototype.add() for the native Set object, the only difference being that we allow for multiple values to be inserted at once.
+Adds a copy of all values passed as arguments to the ObjectSet object, in-order (unless deepCopy is false, which means the object is added by reference). Returns the ObjectSet object. This can be used in the same way as Set.prototype.add() for the native Set object, the only difference being that we allow for multiple values to be inserted at once.
 **If you call ObjectSet.prototype.add() with no arguments, it will add *undefined* to the ObjectSet object**. I did this to mimic the behaviour of Set.prototype.add(), which when called with no arguments, will also insert *undefined* into a Set object. If you use ObjectSet.prototype.add()  exactly like Set.prototype.add(), you have nothing to worry about. Just be careful if you perform an operation like ObjectSet.prototype.add(...arr). If the array is non-empty, it will work as expected, inserting all elements of the array to ObjectSet. However, if arr is an empty array, it will insert *undefined* into the set.
 
 #### ObjectSet.prototype.clear()
